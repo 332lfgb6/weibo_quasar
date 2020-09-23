@@ -1,0 +1,23 @@
+@font-face {
+  font-family: 'xk';
+  src: url('../assets/fonts/xk/xk.eot');
+  src:
+    url('../assets/fonts/xk/xk.eot?#font-spider') format('embedded-opentype'),
+    url('../assets/fonts/xk/xk.woff') format('woff'),
+    url('../assets/fonts/xk/xk.ttf') format('truetype'),
+    url('../assets/fonts/xk/xk.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* 招牌 */
+@font-face {
+  font-family: 'zp';
+  src: url('../assets/fonts/zp/zp.eot');
+  src:
+    url('../assets/fonts/zp/zp.eot?#font-spider') format('embedded-opentype'),
+    url('../assets/fonts/zp/zp.woff') format('woff'),
+    url('../assets/fonts/zp/zp.ttf') format('truetype'),
+    url('../assets/fonts/zp/zp.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
