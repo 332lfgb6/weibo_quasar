@@ -7,7 +7,7 @@ export function SET_NICKNAME (state, nickname) {
   state.nickname = nickname
 }
 export function SET_AVATAR (state, avatar) {
-  state.avatar = serverHostPort.pro + avatar
+  state.avatar = serverHostPort.dev + avatar
 }
 export function SET_VIP_LEVEL (state, vipLevel) {
   state.vipLevel = vipLevel

@@ -191,7 +191,7 @@ export default {
           if (content === '') {
             content = '转发微博'
           }
-          const prefix = `回复@${this.childCommentDetail.user.nickname}:`
+          const prefix = `回复@${this.childCommentDetail.user.nickname}：`
           formData.append('content', prefix + content)
           formData.append('user', parseInt(this.$store.state.user.id))
           formData.append('weibo', parseInt(this.$route.params.weiboID))
@@ -208,12 +208,12 @@ export default {
               this.showEmojiBar = false
               this.isSameTimeShare = false
               this.files = []
-              this.$router.back()
+              this.$router.push(this.$store.state.app.redirectRoute)
             })
           } else {
             // 用户把同时转发勾上了
             const newWeiboFormData = new window.FormData()
-            newWeiboFormData.append('content', `${content}//@${this.rootCommentDetail.user.nickname} ${this.rootCommentDetail.content}//@${this.childCommentDetail.user.nickname} ${this.childCommentDetail.content}`)
+            newWeiboFormData.append('content', `${content}//@${this.rootCommentDetail.user.nickname}：${this.rootCommentDetail.content}//@${this.childCommentDetail.user.nickname} ${this.childCommentDetail.content}`)
             newWeiboFormData.append('user', parseInt(this.$store.state.user.id))
             newWeiboFormData.append('related_weibo', parseInt(this.$route.params.weiboID))
             const images = this.files.map(item => item.file)
@@ -225,7 +225,7 @@ export default {
               this.showEmojiBar = false
               this.isSameTimeShare = false
               this.files = []
-              this.$router.back()
+              this.$router.push(this.$store.state.app.redirectRoute)
             })
           }
         }

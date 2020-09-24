@@ -61,10 +61,10 @@ import VueTextareaAutosize from 'vue-textarea-autosize'
 
 Vue.use(VueTextareaAutosize)
 Vue.use(Uploader)
-
 Vue.use(Toast)
 Vue.use(Swipe)
 Vue.use(SwipeItem)
+
 export default {
   name: 'index',
   data () {
@@ -109,33 +109,37 @@ export default {
       this.$refs.uploader.chooseFile()
     },
     newWeibo () {
-      const formData = new window.FormData()
-      if (this.newRecordData.content === '' && this.aboutUploadFile.files.length > 0) {
-        this.newRecordData.content = '分享图片'
+      // 点击发送按钮时，如果没有输入任何内容并且没有上传任何图片，那么将什么也不做。
+      let content = this.newRecordData.content
+      const files = this.aboutUploadFile.files
+      if (content === '' && files.length === 0) {} else {
+        // 如果没有登录，跳转到登录页
+        const userID = this.$store.state.user.id
+        if (!userID) {
+          const routePath = this.$route.path
+          this.$store.commit('app/SET_REDIRECT_ROUTE', routePath)
+          this.$router.push({ name: 'LoginByEmail' })
+        } else {
+          const formData = new window.FormData()
+          if (content === '') {
+            content = '转发微博'
+          }
+          formData.append('content', content)
+          formData.append('user', parseInt(this.$store.state.user.id))
+          const images = files.map(item => item.file)
+          for (const image of images) {
+            formData.append('images', image)
+          }
+          newWeibo(formData).then(res => {
+            this.newRecordData.content = ''
+            this.showEmojiBar = false
+            this.isSameTimeShare = false
+            this.files = []
+            this.$router.push({ name: 'Index' })
+            Toast.success('发布成功')
+          })
+        }
       }
-      if (this.aboutUploadFile.files.length > 0) {
-        this.newRecordData.type = '图片'
-      }
-      const weiboContent = this.newRecordData.content.replace(/[<|>]/g, '')
-      weiboContent.replace(/#(.*?)#/g, function () {
-        formData.append('topic_name', arguments[1])
-        return arguments[0]
-      })
-      formData.append('content', weiboContent)
-      formData.append('type', this.newRecordData.type)
-      formData.append('public_state', this.newRecordData.public_state)
-      formData.append('user', parseInt(this.$store.state.user.id))
-      const images = this.aboutUploadFile.files.map(item => item.file)
-      for (const image of images) {
-        formData.append('images', image)
-      }
-      newWeibo(formData).then(res => {
-        this.newRecordData.content = ''
-        this.publicStateIcon = 'icon-public'
-        this.showEmojiBar = false
-        this.$router.back()
-        Toast.success('发布成功')
-      })
     },
     switchPublicState () {
       switch (this.newRecordData.public_state) {

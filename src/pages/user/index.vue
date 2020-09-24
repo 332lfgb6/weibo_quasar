@@ -8,7 +8,7 @@
       </div>
         <div class="avatar-part">
           <div class="avatar-container">
-          <img :src="serverHostPort.pro + userInfo.avatar" alt="" class="avatar">
+          <img :src="serverHostPort.dev + userInfo.avatar" alt="" class="avatar">
         </div>
         </div>
         <div class="user-info-container">

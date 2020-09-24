@@ -2,7 +2,7 @@
 //
 // export const uploadImagesApi = formData => {
 //   return request({
-//     url: 'api/v1/weibo_images/',
+//     url: '/api/v1/weibo_images/',
 //     data: formData,
 //     method: 'post',
 //     headers: {

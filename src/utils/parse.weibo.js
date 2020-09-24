@@ -3,7 +3,7 @@ export const parseWeibo = (vueComponent, originContent) => {
     // 防止xss攻击
     let processedContent = originContent.replace(/[<|>]/g, '')
     // 解析用户
-    processedContent = processedContent.replace(/@(.*?)[ |:]/g, '<a onclick="forwardUserPage(event, \'$1\')">$&</a>')
+    processedContent = processedContent.replace(/@(.*?)：/g, '<a onclick="forwardUserPage(event, \'$1\')">$&</a>')
     // 解析话题
     processedContent = processedContent.replace(/#(.*?)#/g, '<a onclick="forwardTopicPage(event, \'$1\')">$&</a>')
     // 解析网址

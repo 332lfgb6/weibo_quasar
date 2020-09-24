@@ -21,7 +21,9 @@
           <div class="nickname-time">
               <span class="nickname">
                 {{ processedWeibo.user.nickname }}
-                <i class="iconfont vip-level" :class="'icon-' + processedWeibo.user.vip_level + '_round_solid'"/>
+                <i class="iconfont vip-level"
+                   v-if="processedWeibo.user.vip_level !== 0"
+                   :class="'icon-' + processedWeibo.user.vip_level + '_round_solid'"/>
               </span>
             <span class="time">{{ processedWeibo.update_time | timeFilter }}
               <span v-if="processedWeibo.f">
@@ -38,14 +40,14 @@
           <div v-else class="right">已关注</div>
         </div>
       </div>
-      <div @click="$router.push({ name: 'WeiboDetail', params: { weiboID: processedWeibo.id } })"
+      <div @click="forwardWeiboDetail(processedWeibo.id)"
            class="content"
            v-html="processedWeibo.content"></div>
       <div class="img-list" :class="{ 'four-images': processedWeibo.images.length === 4 }">
         <img
           v-for="image in processedWeibo.images"
           :key="image.id"
-          :src="serverHostPort.pro + image.uri" alt="">
+          :src="serverHostPort.dev + image.uri" alt="">
       </div>
       <div v-if="processedWeibo.first_image"
            class="video-container">
@@ -70,6 +72,20 @@
           :key="image.id"
           :src="image.uri" alt="">
       </div>
+      <div v-if="processedWeibo.related_weibo.first_image"
+           class="video-container">
+        <div class="first-image"
+             :style="{ 'background-image': 'url(' + processedWeibo.related_weibo.first_image + ')' }">
+          <div class="play-btn"
+               @click="$router.push({ name: 'PlayVideo', params: { videoURI: processedWeibo.related_weibo.video } })">
+            <i class="iconfont icon-play"></i>
+          </div>
+        </div>
+        <div class="view-time">
+          <div class="view">{{ 3 }}次观看</div>
+          <div class="time">{{ processedWeibo.related_weibo.video_time }}</div>
+        </div>
+      </div>
     </div>
     <div v-if="$route.name === 'Index'" class="index-actions">
       <div class="left">
@@ -91,7 +107,8 @@
           <i class="iconfont icon-share"/>
           {{ processedWeibo.shareNumber }}
         </div>
-        <div class="hide-btn">
+        <div class="hide-btn"
+             @click="$router.push({ name: 'WeiboDetail', params: { weiboID: processedWeibo.id } })">
           <i class="iconfont icon-comment"/>
           {{ processedWeibo.commentNumber }}
         </div>
@@ -137,7 +154,7 @@ export default {
       if (processedWeibo.related_weibo) {
         processedWeibo.related_weibo.content = parseWeibo(this, '@' + processedWeibo.related_weibo.user.nickname + ' ' + processedWeibo.related_weibo.content)
         processedWeibo.related_weibo.images.map(item => {
-          item.uri = serverHostPort.pro + item.uri
+          item.uri = serverHostPort.dev + item.uri
           return item
         })
       }
@@ -149,8 +166,13 @@ export default {
     window.forwardTopicPage = this.forwardTopicPage
   },
   methods: {
+    forwardWeiboDetail (weiboID) {
+      if (this.$route.name !== 'WeiboDetail') {
+        this.$router.push({ name: 'WeiboDetail', params: { weiboID } })
+      }
+    },
     copyToClipboard (weiboID) {
-      copyToClipboard(`${vueHostPort.pro}/detail/${weiboID}`).then(res => {
+      copyToClipboard(`${vueHostPort.dev}/detail/${weiboID}`).then(res => {
         Toast({
           message: '复制成功',
           icon: 'passed'
@@ -159,6 +181,7 @@ export default {
       })
     },
     shareWeibo (weiboID) {
+      this.$store.commit('app/SET_REDIRECT_ROUTE', this.$route.path)
       this.$router.push({ name: 'Share', params: { weiboID } })
     },
     userAgreeWeibo (weiboID, userAgreeWeiboID) {
@@ -383,6 +406,8 @@ export default {
     background: $color33;
 
     .content {
+      color: $color1;
+
       /deep/ {
         img {
           width: 4.27vw  /* 16/3.75 */;
@@ -423,6 +448,46 @@ export default {
         &:nth-of-type(3n) {
           margin-right: 1.8vw;
         }
+      }
+    }
+
+    .video-container {
+      position: relative;
+
+      .first-image {
+        position: relative;
+        height: 52.53vw  /* 197/3.75 */;
+        background-size: cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .play-btn {
+          width: 54px;
+          height: 54px;
+          position: absolute;
+          border-radius: 50%;
+          background: rgba(0, 0, 0, .4);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          i {
+            color: white;
+          }
+        }
+      }
+
+      .view-time {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        padding: 5px;
+        font-size: 12px;
       }
     }
   }

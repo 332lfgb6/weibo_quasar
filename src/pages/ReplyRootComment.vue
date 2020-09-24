@@ -208,12 +208,12 @@ export default {
               this.showEmojiBar = false
               this.isSameTimeShare = false
               this.files = []
-              this.$router.back()
+              this.$router.push(this.$store.state.app.redirectRoute)
             })
           } else {
             // 用户把同时评论勾上了
             const newWeiboFormData = new window.FormData()
-            newWeiboFormData.append('content', `${content}//@${this.rootCommentDetail.user.nickname} ${this.rootCommentDetail.content}`)
+            newWeiboFormData.append('content', `${content}//@${this.rootCommentDetail.user.nickname}：${this.rootCommentDetail.content}`)
             newWeiboFormData.append('user', parseInt(this.$store.state.user.id))
             newWeiboFormData.append('related_weibo', parseInt(this.$route.params.weiboID))
             const images = this.files.map(item => item.file)
@@ -225,7 +225,7 @@ export default {
               this.showEmojiBar = false
               this.isSameTimeShare = false
               this.files = []
-              this.$router.back()
+              this.$router.push(this.$store.state.app.redirectRoute)
             })
           }
         }

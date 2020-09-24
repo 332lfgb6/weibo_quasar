@@ -3,10 +3,10 @@ import { getToken } from 'src/utils/token'
 
 const request = axios.create({
   // 本机
-  // baseURL: 'http://127.0.0.1:8000/',
+  baseURL: 'http://127.0.0.1:8000',
   // 手机
   // baseURL: 'http://192.168.43.194:8000/',
-  baseURL: 'http://3437281891.pythonanywhere.com/',
+  // baseURL: 'http://3437281891.pythonanywhere.com',
   timeout: 6000
 })
 const officialRequest = axios.create({
@@ -20,6 +20,11 @@ request.interceptors.request.use(config => {
       config.params = {}
     }
     config.params.token = token
+  } else {
+    if (!config.params) {
+      config.params = {}
+    }
+    config.params.token = null
   }
   return config
 })

@@ -26,9 +26,10 @@
       <div class="tab-bar-for-all">
         <div v-if="showAllCategories" class="all-category">
           <div
-            @click="switchTabBottom(activeTabIndex)"
+            @click="switchTabBottom(index)"
             class="category-container"
-            v-for="(category, activeTabIndex) in categoryList"
+            :class="{ 'active-category': activeTabIndex ===  index}"
+            v-for="(category, index) in categoryList"
             :key="category.id">
             <div class="category" v-text="category.name" ></div>
           </div>
@@ -78,10 +79,6 @@ export default {
       scrollBarHeight: 0,
       categoryList: []
     }
-  },
-  beforeRouteLeave (to, from, next) {
-    this.scrollBarHeight = document.body.scrollTop || document.documentElement.scrollTop
-    next()
   },
   activated () {
     this.getCategoryList()
@@ -218,6 +215,10 @@ export default {
             background: $background2;
             border-radius: 0.8vw  /* 3/3.75 */;
           }
+        }
+
+        .active-category {
+          color: $color18;
         }
       }
     }

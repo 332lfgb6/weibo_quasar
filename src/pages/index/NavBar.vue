@@ -1,8 +1,8 @@
 <template>
   <div class="nav-bar">
     <div class="nav-bar-child">
-      <img v-if="!$store.state.user.isLogin" class="logo" src="../../assets/logo.svg" alt="">
-      <i v-if="$store.state.user.isLogin"
+      <img v-if="!$store.state.user.id" class="logo" src="../../assets/logo.svg" alt="">
+      <i v-if="$store.state.user.id"
         @click="$router.push({ name: 'Profile', params: { userID: $store.state.user.id } })"
         class="iconfont icon-mine profile"/>
       <div @click="$router.push({ name: 'Search' })" class="hot-search ellipsis no-login">

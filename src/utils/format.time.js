@@ -11,10 +11,20 @@ export const formatTime = timeString => {
       return '刚刚'
     }
     if (temp < 60 * 60 * 10 ** 3) {
-      return `${currentDatetime.getMinutes() - updateDatetime.getMinutes()}分钟前`
+      const minute = currentDatetime.getMinutes() - updateDatetime.getMinutes()
+      if (minute <= 0) {
+        return `${minute + 60}分钟前`
+      } else {
+        return `${minute}分钟前`
+      }
     }
     if (temp < 24 * 60 * 60 * 10 ** 3) {
-      return `${currentDatetime.getHours() - updateDatetime.getHours()}小时前`
+      const hour = currentDatetime.getHours() - updateDatetime.getHours()
+      if (hour <= 0) {
+        return `${hour + 24}小时前`
+      } else {
+        return `${hour}小时前`
+      }
     }
     // 单个数字前面补0
     let hour = updateDatetime.getHours()

@@ -29,7 +29,7 @@ export default {
       this.showPopup = false
     },
     copyToClipboard (weiboID) {
-      copyToClipboard(`${vueHostPort.pro}/detail/${weiboID}`).then(res => {
+      copyToClipboard(`${vueHostPort.dev}/detail/${weiboID}`).then(res => {
         Toast({
           message: '复制成功',
           icon: 'passed'

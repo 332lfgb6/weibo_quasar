@@ -2,7 +2,7 @@
   <div class="user-info">
     <div class="left">
       <img
-        :src="serverHostPort.pro + userInfo.avatar"
+        :src="serverHostPort.dev + userInfo.avatar"
         alt="" class="avatar">
       <div class="text-user-info">
         <div class="nickname-level">
@@ -10,7 +10,7 @@
           <span class="level">{{ userInfo.vip_level }}</span>
         </div>
         <div class="brief ellipsis">{{ userInfo.brief }}</div>
-        <div class="fans">{{ userInfo.fans }}</div>
+        <div class="fans">粉丝：{{ userInfo.fans }}</div>
       </div>
     </div>
     <div @click="follow(userInfo.id, userInfo.follow_id)" v-if="!userInfo.follow_id" class="right">
@@ -43,7 +43,7 @@ export default {
   .user-info {
     height: 24.53vw  /* 92/3.75 */;
     padding: 2.67vw  /* 10/3.75 */ 3.2vw  /* 12/3.75 */;
-    margin-top: 2.67vw  /* 10/3.75 */;
+    margin: 10px 0;
     background: white;
     border-top: 0.27vw  /* 1/3.75 */ solid $color30;
     border-bottom: 0.27vw  /* 1/3.75 */ solid $color30;

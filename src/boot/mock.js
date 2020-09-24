@@ -42,7 +42,7 @@ export default async ({ store }) => {
   // 批量修改微博归属
   // for (let i = 79; i < 105; i++) {
   //   request({
-  //     url: `api/v1/weibo/${i}/`,
+  //     url: `/api/v1/weibo/${i}/`,
   //     method: 'patch',
   //     data: {
   //       user: 2

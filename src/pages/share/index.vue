@@ -80,9 +80,9 @@ import { addComment } from 'src/api/comment'
 Vue.use(Toast)
 Vue.use(VueTextareaAutosize)
 Vue.use(Uploader)
-
 Vue.use(Swipe)
 Vue.use(SwipeItem)
+
 export default {
   name: 'index',
   data () {
@@ -165,6 +165,9 @@ export default {
       return true
     },
     chooseFile () {
+      if (this.files.length === 1) {
+        Toast.fail('转发只能附带一张图片')
+      }
       this.$refs.uploader.chooseFile()
     },
     load () {
@@ -201,7 +204,7 @@ export default {
       if (!this.isSameTimeComment) {
         newWeibo(formData).then(res => {
           this.resetFormData()
-          this.$router.back()
+          this.$router.push(this.$store.state.app.redirectRoute)
           Toast.success('转发成功')
         })
       }
@@ -218,7 +221,7 @@ export default {
         }
         Promise.all([newWeibo(formData), addComment(newCommentFormData)]).then(res => {
           this.resetFormData()
-          this.$router.back()
+          this.$router.push(this.$store.state.app.redirectRoute)
           Toast.success('转发并评论成功')
         })
       }

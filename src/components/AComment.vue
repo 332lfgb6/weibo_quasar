@@ -122,9 +122,9 @@ export default {
       e.stopPropagation()
       this.$router.push({ name: 'User', params: { user } })
     },
-    forwardTopicPage (e, topic) {
+    forwardTopicPage (e, topicName) {
       e.stopPropagation()
-      this.$router.push({ name: 'Topic', params: { topic } })
+      this.$router.push({ name: 'Topic', params: { topicName } })
     },
     openPopup (parent) {
       if (this.$route.name === 'RootCommentDetail' && !parent) {} else {
@@ -135,6 +135,7 @@ export default {
       this.showPopup = false
     },
     reply (commentID, parentCommentID) {
+      this.$store.commit('app/SET_REDIRECT_ROUTE', this.$route.path)
       // 如果当前评论没有根评论
       if (!parentCommentID) {
         this.$router.push({ name: 'ReplyRootComment', params: { weiboID: this.$route.params.weiboID, rootCommentID: commentID } })
